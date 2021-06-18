@@ -31,8 +31,6 @@ router.route("/:id").get((req, res) => {
 router.route("/update/:id").post((req, res) => {
   Participants.findById(req.params.id)
     .then((participant) => {
-      // participant.username = req.body.username;
-      // participant.email = req.body.email;
       participant.meeting = req.body.meeting;
 
       participant

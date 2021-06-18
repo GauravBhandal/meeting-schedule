@@ -21,16 +21,13 @@ const UpdateSchedule = (props) => {
   const getScheduleDetails = () => {
     axios.get(`${host}exercise/${props?.match?.params.id}`).then((res) => {
       if (res?.data) {
-        const initialParticipants = res.data?.participants.filter((id) =>
-          participantsList.some(({ _id: id1 }) => id === id1)
-        );
         form.setFieldsValue({
           startDate: moment(res.data.startDate, "YYYY-MM-DD"),
           startTime: [
             moment(res.data?.startTime, "HH:mm"),
             moment(res.data?.endTime, "HH:mm"),
           ],
-          participants: initialParticipants,
+          participants: res.data.participants,
         });
       }
     });

@@ -27,54 +27,17 @@ const CreateSchedule = (props) => {
       endTime: moment(values?.startTime[1]).format("HH:mm"),
       startTime: moment(values?.startTime[0]).format("HH:mm"),
     };
-    let flag = 0;
     if (data.participants.length < 2) {
       message.error("Please select at least two participants");
     } else {
-      participants
-        .filter(({ _id: id1 }) => data.participants.some((id) => id === id1))
-        .forEach((p) => {
-          p.meeting.forEach((d) => {
-            if (
-              d.date === data.startDate &&
-              (d.startTime === data.startTime ||
-                d.endTime === data.endTime ||
-                (d.startTime > data.startTime && d.startTime < data.endTime) ||
-                (d.startTime < data.startTime && d.startTime > data.endTime))
-            ) {
-              message.error(`${p?.username}'s time is collided`);
-              flag = 1;
-              return;
-            }
-          });
-        });
-      if (flag === 0) {
-        participants
-          .filter(({ _id: id1 }) => data.participants.some((id) => id === id1))
-          .forEach((p) => {
-            const memberData = [
-              ...p?.meeting,
-              {
-                startTime: data.startTime,
-                endTime: data.endTime,
-                date: data.startDate,
-              },
-            ];
-            p.meeting = memberData;
-            axios.post(`${host}participant/update/${p._id}`, p).then((res) => {
-              if (res?.data) {
-                console.log("participants updated!");
-              }
-            });
-          });
-
-        axios.post(`${host}exercise/add`, data).then((res) => {
-          if (res?.data) {
-            props.history.push("/");
-            message.success("Schedule created successfully");
-          }
-        });
-      }
+      axios.post(`${host}exercise/add`, data).then((res) => {
+        if (res?.data) {
+          props.history.push("/");
+          message.success("Schedule created successfully");
+        } else {
+          message.error("There is some issue");
+        }
+      });
     }
   };
   return (
@@ -145,7 +108,7 @@ const CreateSchedule = (props) => {
           </Select>
         </Form.Item>
         <Button type="primary" htmlType="submit">
-          Send
+          Create
         </Button>
       </Form>
     </div>
