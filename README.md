@@ -5,7 +5,8 @@ run command --- npm start
 run -- cd backend then --
 nodemon server
 
-
+### for starting email feature
+add your email and password in it
 
 
 ## Screenshots of project 
