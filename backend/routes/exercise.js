@@ -15,8 +15,8 @@ const sendMail = (participant, startDate, startTime, endTime) => {
     secure: false,
     requireTLS: true,
     auth: {
-      user: "bhandalgaurav1999@gmail.com",
-      pass: "Githubeducation@123",
+      user: "",
+      pass: "",
     },
   });
   const mailOptions = {
